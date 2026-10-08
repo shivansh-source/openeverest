@@ -39,8 +39,8 @@ jobs:
         run: |
           make kind-cluster-up
 
-      - name: Set MinIO
-        run: kubectl apply -f ./.github/minio.conf.yaml
+      - name: Deploy SeaweedFS
+        run: kubectl apply -f ./dev/resources/seaweedfs.yaml
 
       - name: Add Helm Percona repository
         shell: bash
@@ -138,7 +138,7 @@ jobs:
           exit 1
 
       - name: Cache Playwright browsers
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ hashFiles('ui/pnpm-lock.yaml') }}
@@ -155,10 +155,10 @@ jobs:
         env:
           EVEREST_URL: "http://localhost:3000"
           EVEREST_BUCKETS_NAMESPACES_MAP: '[["bucket-1","everest"]]'
-          EVEREST_LOCATION_ACCESS_KEY: "minioadmin"
-          EVEREST_LOCATION_SECRET_KEY: "minioadmin"
+          EVEREST_LOCATION_ACCESS_KEY: "seaweedfsadmin"
+          EVEREST_LOCATION_SECRET_KEY: "seaweedfsadmin"
           EVEREST_LOCATION_REGION: "us-east-1"
-          EVEREST_LOCATION_URL: "https://minio.minio.svc.cluster.local"
+          EVEREST_LOCATION_URL: "https://seaweedfs.seaweedfs.svc.cluster.local"
           CI_USER: "admin"
           CI_PASSWORD: "${{ env.EVEREST_ADMIN_PASSWORD }}"
           RBAC_USER: "rbac_user"
